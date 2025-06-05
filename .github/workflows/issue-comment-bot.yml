@@ -11,7 +11,10 @@ jobs:
       - name: Add Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
-          token: ${{ secrets.CI_BOT_TOKEN }}
+          token: ${{ secrets.BOT_PAT }}
           issue-number: ${{ github.event.issue.number }}
           body: |
             Thanks for your comments!
+      - name: Test BOT_PAT token works
+        run: |
+          curl -s -H "Authorization: token ${{ secrets.BOT_PAT }}" https://api.github.com/user
