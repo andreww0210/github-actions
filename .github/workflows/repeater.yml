@@ -1,0 +1,18 @@
+name: Repeat CI Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  repeat:
+    if: contains(github.event.comment.body, '@ci') # 🧠 触发条件
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo the comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          token: ${{ secrets.BOT_PAT }}  # 🔐 使用 bot 的 PAT
+          body: ${{ github.event.comment.body }} # 🪞 原封不动地复读
