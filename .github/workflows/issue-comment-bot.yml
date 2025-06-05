@@ -1,0 +1,17 @@
+name: Auto Comment on New Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.CI_BOT_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thanks for your comments!
