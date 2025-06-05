@@ -6,7 +6,7 @@ on:
 
 jobs:
   repeat:
-    if: contains(github.event.comment.body, '@ci') # 🧠 触发条件
+    if: contains(github.event.comment.body, '@haobot-ci') # 🧠 触发条件
     runs-on: ubuntu-latest
 
     steps:
