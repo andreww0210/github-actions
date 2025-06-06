@@ -1,4 +1,4 @@
-name: Issue Hello Bot
+name: Auto Reply to New Issue
 
 on:
   issues:
@@ -8,20 +8,24 @@ permissions:
   issues: write
 
 jobs:
-  say-hello:
+  auto-reply:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say hello in issue comment
+      - name: 自动评论新 Issue
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issue = context.payload.issue;
-            if (issue) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                body: "👋 Hello! 感谢你提 issue～"
-              });
+            const issueNumber = context.issue.number;
+            const message = `
+👋 你好！感谢你提交 Issue，我们会尽快处理～
+
+⚠️ 提醒：请确保你已提供足够的信息，方便我们更高效地帮你定位问题。`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: message
+            });
