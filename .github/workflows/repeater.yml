@@ -6,13 +6,17 @@ on:
 
 jobs:
   repeat:
-    if: contains(github.event.comment.body, '@haobot-ci') # 🧠 触发条件
+    if: >
+      contains(github.event.comment.body, '@haobot-ci') &&
+      github.event.comment.user.login != 'haobot' # ⛔ 防止 bot 自己触发循环
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo the comment
+      - name: Echo with mention
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.issue.number }}
-          token: ${{ secrets.BOT_PAT }}  # 🔐 使用 bot 的 PAT
-          body: ${{ github.event.comment.body }} # 🪞 原封不动地复读
+          token: ${{ secrets.BOT_PAT }}
+          body: |
+            👋 @${{ github.event.comment.user.login }}
+            > ${{ github.event.comment.body }}
