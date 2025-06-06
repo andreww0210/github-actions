@@ -8,7 +8,7 @@ jobs:
   repeat:
     if: >
       contains(github.event.comment.body, '@haobot-ci') &&
-      github.event.comment.user.login != 'haobot'
+      github.event.comment.user.login != 'haobot-ci'
     runs-on: ubuntu-latest
 
     steps:
